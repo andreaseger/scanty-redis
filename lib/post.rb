@@ -34,7 +34,7 @@ class Post
 	def self.new_from_slugs(slugs)
 		return [] if slugs.empty?
 		ids = slugs.map { |slug| db_key_for_slug(slug) }
-		DB.mget(ids).map { |json| new_from_json(json) }
+		DB.mget(*ids).map { |json| new_from_json(json) }
 	end
 
 	def self.find_by_slug(slug)
@@ -42,7 +42,7 @@ class Post
 	end
 
 	def self.find_range(start, len)
-		new_from_slugs DB.list_range(chrono_key, start, start + len - 1)
+		new_from_slugs DB.lrange(chrono_key, start, start + len - 1)
 	end
 
 	def self.all
@@ -50,7 +50,7 @@ class Post
 	end
 
 	def self.find_tagged(tag)
-		new_from_slugs DB.list_range("#{self}:tagged:#{tag}", 0, 99999)
+		new_from_slugs DB.lrange("#{self}:tagged:#{tag}", 0, 99999)
 	end
 
 	def self.db_key_for_slug(slug)
@@ -77,17 +77,17 @@ class Post
 	end
 
 	def build_indexes
-		DB.push_head(self.class.chrono_key, slug)
+		DB.lpush(self.class.chrono_key, slug)
 
 		tags.split.each do |tag|
-			DB.push_head("#{self.class}:tagged:#{tag}", slug)
+			DB.lpush("#{self.class}:tagged:#{tag}", slug)
 		end
 	end
 
 	def destroy
-		DB.list_rm(self.class.chrono_key, db_key, 0)
+		DB.lrem(self.class.chrono_key, 0, db_key)
 		tags.split.each do |tag|
-			DB.list_rm("#{self.class}:tagged:#{tag}", slug, 0)
+			DB.lrem("#{self.class}:tagged:#{tag}", 0, slug)
 		end
 		DB.delete(db_key)
 	end
