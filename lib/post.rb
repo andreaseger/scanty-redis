@@ -1,3 +1,5 @@
+require 'json'
+
 class Post
 	def self.attrs
 		[ :slug, :title, :body, :tags, :created_at ]

@@ -1,7 +1,11 @@
 require 'rubygems'
 require 'sinatra'
+require 'ostruct'
+require 'maruku'
+require 'syntax/convertors/html'
 
-require File.dirname(__FILE__) + '/lib/all'
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/lib')
+require 'all'
 
 configure do
 	Blog = OpenStruct.new(
@@ -125,4 +129,3 @@ post '/past/:year/:month/:day/:slug/' do
 	post.save
 	redirect post.url
 end
-

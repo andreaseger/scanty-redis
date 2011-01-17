@@ -1,8 +1,4 @@
-require 'json'
-require 'ostruct'
-require 'active_support/core_ext/time'
-
-$LOAD_PATH.unshift File.dirname(__FILE__) + '/../vendor/redis'
+require 'post'
 require 'redis'
 
 redis_config = if ENV['REDIS_URL']
@@ -14,11 +10,3 @@ else
 end
 
 DB = Redis.new(redis_config)
-
-require File.dirname(__FILE__) + '/../vendor/maruku/maruku'
-
-$LOAD_PATH.unshift File.dirname(__FILE__) + '/../vendor/syntax'
-require 'syntax/convertors/html'
-
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'post'
