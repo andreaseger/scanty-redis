@@ -13,14 +13,11 @@ instead of SQL.
 
 == Dependencies
 
-  $ gem install sinatra
+Dependencies are all handled through bundler.
 
-Redis-rb, Maruku, and Syntax are all vendored.
+  $ bundle install
 
-Get Redis from: http://code.google.com/p/redis/downloads/list
-
-Unarchive the tarball and run make inside the directory.  When finished you can
-type ./redis-server to run it on the default port on localhost.
+See http://redis.io for directions on installing and configuring a redis server.
 
 == Setup
 
