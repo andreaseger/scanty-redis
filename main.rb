@@ -32,7 +32,7 @@ helpers do
 	end
 
 	def auth
-		stop [ 401, 'Not authorized' ] unless admin?
+		halt [ 401, 'Not authorized' ] unless admin?
 	end
 
 	def cache_page(seconds=5*60)
@@ -53,7 +53,7 @@ end
 get '/past/:year/:month/:day/:slug/' do
 	cache_page
 	post = Post.find_by_slug(params[:slug])
-	stop [ 404, "Page not found" ] unless post
+	halt [ 404, "Page not found" ] unless post
 	@title = post.title
 	erb :post, :locals => { :post => post }
 end
@@ -101,6 +101,11 @@ post '/auth' do
 	redirect '/'
 end
 
+get '/logout' do
+  response.set_cookie(Blog.admin_cookie_key, nil)
+	redirect '/'
+end
+
 get '/posts/new' do
 	auth
 	erb :edit, :locals => { :post => Post.new, :url => '/posts' }
@@ -115,14 +120,14 @@ end
 get '/past/:year/:month/:day/:slug/edit' do
 	auth
 	post = Post.find_by_slug(params[:slug])
-	stop [ 404, "Page not found" ] unless post
+	halt [ 404, "Page not found" ] unless post
 	erb :edit, :locals => { :post => post, :url => post.url }
 end
 
 post '/past/:year/:month/:day/:slug/' do
 	auth
 	post = Post.find_by_slug(params[:slug])
-	stop [ 404, "Page not found" ] unless post
+	halt [ 404, "Page not found" ] unless post
 	post.title = params[:title]
 	post.tags = params[:tags]
 	post.body = params[:body]

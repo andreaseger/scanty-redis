@@ -43,6 +43,9 @@
 
 	<% if admin? %>
 		<div id="new_post"><a href="/posts/new"">New post</a></div>
+		<div id="logout"><a href="/logout"">Logout</a></div>
+  <% else %>
+    <div id="login"><a href="/auth"">Login</a></div>
 	<% end %>
 </div>
 
