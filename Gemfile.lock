@@ -8,6 +8,7 @@ GEM
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.0.0)
     highline (1.6.1)
+    json (1.5.1)
     maruku (0.6.0)
       syntax (>= 1.0.0)
     net-scp (1.0.4)
@@ -30,6 +31,7 @@ PLATFORMS
 
 DEPENDENCIES
   capistrano
+  json
   maruku
   redis
   sinatra
