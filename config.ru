@@ -1,3 +1,4 @@
 require 'main'
-Sinatra::Base.set(:env, :production)
+set :run, false
+set :environment, :production
 run Sinatra::Application
