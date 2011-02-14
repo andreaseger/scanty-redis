@@ -1,3 +1,3 @@
 require 'main'
-Sinatra::Application.default_options.merge!(:env => :production)
+Sinatra::Base.set(:env, :production)
 run Sinatra::Application
