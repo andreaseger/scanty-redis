@@ -4,6 +4,9 @@ require 'ostruct'
 require 'maruku'
 require 'syntax/convertors/html'
 
+#load the nessisary environment variables from this file
+require 'environment'
+
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/lib')
 require 'all'
 
@@ -15,7 +18,7 @@ configure do
 		:admin_password => ENV['ADMIN_PASSWORD'] || 'changeme',
 		:admin_cookie_key => 'scanty_admin',
 		:admin_cookie_value => ENV['ADMIN_COOKIE_VALUE'] || '51d6d976913ace58',
-		:disqus_shortname => nil
+		:disqus_shortname => ENV['DISQUS_SHORTNAME'] || nil
 	)
 end
 
